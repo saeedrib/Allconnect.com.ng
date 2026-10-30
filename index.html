@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Private Student Support Scheme | Zero-Interest Student Aid Fund</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Supabase JS Library CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="logo">SLF Fund</div>
+        <div class="nav-links">
+            <a href="#" id="nav-home">Home</a>
+            <a href="#" id="nav-login">Log In</a>
+            <a href="#" id="nav-register" class="btn-primary">Apply Now</a>
+        </div>
+    </nav>
+
+    <!-- MAIN CONTAINER -->
+    <main class="container">
+
+        <!-- 1. HOME VIEW -->
+        <section id="home-view" class="view-section">
+            <div class="hero">
+                <h1>Interest-Free Education Loans for Nigerian Students</h1>
+                <p>Get up to 50% tuition support and flexible repayment options to secure your academic future. A private, transparent student aid initiative.</p>
+                <div class="hero-buttons">
+                    <button onclick="switchView('register-view')" class="btn-primary">Create Student Account</button>
+                    <button onclick="switchView('login-view')" class="btn-secondary">Student Login</button>
+                </div>
+            </div>
+            
+            <!-- Safe Monetag Banner Container -->
+            <div class="monetag-ad-container" id="monetag-home-banner">
+                <!-- Liƙa Code na Monetag Native Banner dinki a nan idan kina da shi -->
+                <p style="font-size: 11px; color: #aaa; text-align: center; margin: 10px 0;">Sponsored Content</p>
+            </div>
+        </section>
+
+        <!-- 2. REGISTRATION VIEW -->
+        <section id="register-view" class="view-section" style="display: none;">
+            <div class="auth-card">
+                <h2>Create Account</h2>
+                <p>Register with your email to access the application dashboard.</p>
+                <form id="register-form">
+                    <label>Full Name</label>
+                    <input type="text" id="reg-name" required placeholder="Enter full name">
+                    
+                    <label>Email Address</label>
+                    <input type="email" id="reg-email" required placeholder="Enter email">
+                    
+                    <label>Password</label>
+                    <input type="password" id="reg-password" required placeholder="Create secure password">
+                    
+                    <button type="submit" class="btn-primary">Register</button>
+                </form>
+                <p class="auth-switch">Already registered? <a href="#" onclick="switchView('login-view')">Log in here</a></p>
+            </div>
+        </section>
+
+        <!-- 3. LOGIN VIEW (No Ad Interstitial Page) -->
+        <section id="login-view" class="view-section" style="display: none;">
+            <div class="auth-card">
+                <h2>Welcome Back</h2>
+                <p>Sign in to view your application status immediately.</p>
+                <form id="login-form">
+                    <label>Email Address</label>
+                    <input type="email" id="login-email" required placeholder="Enter email">
+                    
+                    <label>Password</label>
+                    <input type="password" id="login-password" required placeholder="Enter password">
+                    
+                    <button type="submit" class="btn-primary">Log In</button>
+                </form>
+                <p class="auth-switch">New here? <a href="#" onclick="switchView('register-view')">Create an account</a></p>
+            </div>
+        </section>
+
+        <!-- 4. DASHBOARD VIEW -->
+        <section id="dashboard-view" class="view-section" style="display: none;">
+            <div class="dashboard-header">
+                <h2>Student Dashboard</h2>
+                <button onclick="handleLogout()" class="btn-danger">Sign Out</button>
+            </div>
+            
+            <div class="dashboard-grid">
+                <!-- Form Submission Container -->
+                <div class="dashboard-main">
+                    <div class="status-card">
+                        <h3>Application Status: <span id="application-status">No Application Submitted</span></h3>
+                    </div>
+
+                    <div id="application-form-container" class="card">
+                        <h3>New Student Loan Application</h3>
+                        <p>Fill out the fields below carefully. Banking details are completely unnecessary for verification.</p>
+                        <form id="loan-application-form">
+                            <label>Full Name</label>
+                            <input type="text" id="app-name" required readonly>
+                            
+                            <label>Institution Name</label>
+                            <input type="text" id="app-institution" required placeholder="e.g., Ahmadu Bello University">
+                            
+                            <label>Student ID / Matric Number</label>
+                            <input type="text" id="app-studentid" required placeholder="e.g., U12/KMS/1001">
+                            
+                            <label>Course of Study</label>
+                            <input type="text" id="app-course" required placeholder="e.g., B.Sc. Computer Science">
+                            
+                            <label>State of Origin</label>
+                            <input type="text" id="app-state" required placeholder="e.g., Kano State">
+                            
+                            <button type="submit" class="btn-primary">Submit Application</button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Sidebar Banner Space -->
+                <div class="dashboard-sidebar">
+                    <div class="card monetag-sidebar-ad">
+                        <p style="font-size: 11px; color: #aaa; text-align: center;">Partner Links</p>
+                        <!-- Za ka iya sanya lambar SmartLink dinka ta Monetag a nan ta hanyar Banner -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+</body>
+</html>
