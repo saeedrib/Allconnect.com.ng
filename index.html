@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#102a43">
+<meta name="monetag" content="fbb4d095c8dd542ad1da5d98204c544d">
+<title>Student Loan Found | Student Support</title>
+<meta name="description" content="Private student support and tuition assistance information for Nigerian students.">
+<style>
+:root{--navy:#102a43;--green:#176b45;--ink:#243746;--muted:#657786;--line:#dce5ec;--bg:#f4f7fa}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 system-ui,Arial,sans-serif}
+button,input,select{font:inherit}.navbar{height:70px;background:white;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 max(5%,calc((100% - 1100px)/2));position:sticky;top:0}
+.brand{font-weight:850;color:var(--navy);font-size:20px;text-decoration:none}.brand b{background:var(--green);color:white;padding:8px 10px;border-radius:9px;margin-right:8px}
+.container{width:min(1100px,90%);margin:auto}.view{display:none;min-height:calc(100vh - 70px)}#home-view{display:block}
+.btn{border:0;border-radius:9px;padding:11px 17px;font-weight:750;cursor:pointer}.primary{background:var(--green);color:white}.outline{background:white;color:var(--navy);border:1px solid var(--line)}
+.hero{padding:72px 0;background:linear-gradient(120deg,#eaf2f7,#fff 60%,#eaf4ee)}.hero-grid{display:grid;grid-template-columns:1.3fr .7fr;gap:35px;align-items:center}
+h1,h2,h3{color:var(--navy)}h1{font-size:clamp(36px,5vw,58px);line-height:1.1;margin:12px 0}.lead{font-size:18px;color:var(--muted)}
+.card,.auth,.panel{background:white;border:1px solid var(--line);border-radius:15px;padding:24px;box-shadow:0 10px 28px #102a4310}
+.section{padding:48px 0}.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.muted{color:var(--muted);font-size:14px}
+.notice{padding:14px;background:#fff7e5;border:1px solid #f0dfb6;border-radius:10px;color:#70551b;margin-top:22px;font-size:14px}
+.auth-wrap{display:grid;place-items:center;padding:45px 0}.auth{width:min(470px,100%)}.field{margin:15px 0}.field label{display:block;font-weight:700;font-size:14px;margin-bottom:6px}.field input,.field select{width:100%;padding:12px;border:1px solid #cbd7e0;border-radius:8px}
+.full{width:100%}.msg{display:none;padding:11px;border-radius:8px;margin:12px 0;font-size:14px}.msg.show{display:block}.error{background:#fff0f0;color:#a83232}.success{background:#eaf6ef;color:#145b39}
+.dashboard{padding:35px 0}.dashhead{display:flex;justify-content:space-between;align-items:center;gap:15px}.details{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.detail{background:#f5f7f9;padding:12px;border-radius:8px}.detail small{display:block;color:var(--muted)}.pill{display:inline-block;background:#fff2d5;border-radius:20px;padding:4px 10px;text-transform:capitalize;font-size:12px}
+footer{background:var(--navy);color:#dbe6ef;padding:22px 0;font-size:13px}
+@media(max-width:700px){.hero-grid,.cards{grid-template-columns:1fr}.hero{padding:45px 0}.details{grid-template-columns:1fr}.dashhead{align-items:flex-start;flex-direction:column}.navbar{padding:0 5%}.brand{font-size:16px}}
+</style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script defer src="./app.js"></script>
+</head>
+<body>
+<nav class="navbar"><a class="brand" href="#" id="brand-home"><b>SL</b>Student Loan Found</a>
+<div><button class="btn outline" id="nav-login">Log in</button> <button class="btn primary" id="nav-register">Register</button><button class="btn outline" id="nav-logout" style="display:none">Log out</button></div></nav>
+<main>
+<section class="view" id="home-view"><div class="hero"><div class="container hero-grid">
+<div><span style="color:var(--green);font-weight:800">PRIVATE STUDENT SUPPORT INITIATIVE</span><h1>Supporting your education. Building your future.</h1>
+<p class="lead">Explore interest-free student assistance and tuition support opportunities for eligible Nigerian students.</p>
+<button class="btn primary" id="hero-register">Get started</button> <button class="btn outline" id="hero-login">Student login</button></div>
+<div class="card"><h3>Privacy comes first</h3><p class="muted">We only request basic student and education details.</p><p>✓ No BVN collection<br>✓ No bank account number<br>✓ No bank name requested<br>✓ Track your application online</p></div></div></div>
+<div class="container section"><h2>How it works</h2><div class="cards"><div class="card"><h3>1. Register</h3><p class="muted">Create an account with your email.</p></div><div class="card"><h3>2. Apply</h3><p class="muted">Submit the five required student details.</p></div><div class="card"><h3>3. Track</h3><p class="muted">View your application status in your dashboard.</p></div></div>
+<div class="notice"><b>Important:</b> Student Loan Found is a private initiative, not a Nigerian government agency or NELFUND. Support is not guaranteed. Verify eligibility and award terms before accepting any offer. Never pay an individual to unlock an application.</div></div></section>
+<section class="view" id="login-view"><div class="container auth-wrap"><div class="auth"><h1>Welcome back</h1><p class="muted">Log in to your student dashboard.</p><div id="login-msg" class="msg"></div>
+<form id="login-form"><div class="field"><label>Email address</label><input id="login-email" type="email" autocomplete="email" required></div><div class="field"><label>Password</label><input id="login-password" type="password" autocomplete="current-password" required></div><button class="btn primary full">Log in</button></form><p class="muted">New student? <a href="#" id="link-register">Create account</a></p></div></div></section>
+<section class="view" id="register-view"><div class="container auth-wrap"><div class="auth"><h1>Create account</h1><p class="muted">Use an email address you can access.</p><div id="register-msg" class="msg"></div>
+<form id="register-form"><div class="field"><label>Full name</label><input id="reg-name" maxlength="120" required></div><div class="field"><label>Email address</label><input id="reg-email" type="email" autocomplete="email" required></div><div class="field"><label>Password (minimum 8 characters)</label><input id="reg-password" type="password" minlength="8" required></div><button class="btn primary full">Create account</button></form><p class="muted">Already registered? <a href="#" id="link-login">Log in</a></p></div></div></section>
+<section class="view" id="dashboard-view"><div class="container dashboard"><div class="dashhead"><div><span style="color:var(--green);font-weight:800">STUDENT PORTAL</span><h1 id="welcome">Your dashboard</h1><p class="muted" id="user-email"></p></div><button class="btn outline" id="dash-logout">Log out</button></div>
+<div id="dash-msg" class="msg"></div><div class="panel" id="application-panel"><h2>Student support application</h2><p class="muted">Only these five application details are collected.</p><form id="application-form">
+<div class="field"><label>Full Name</label><input id="full-name" maxlength="120" required></div>
+<div class="field"><label>Institution Name</label><input id="institution" maxlength="180" required></div>
+<div class="field"><label>Student ID / Matric Number</label><input id="student-id" maxlength="100" required></div>
+<div class="field"><label>Course of Study</label><input id="course" maxlength="160" required></div>
+<div class="field"><label>State of Origin</label><select id="state" required><option value="">Select state</option></select></div>
+<button class="btn primary" id="submit-btn">Submit application</button></form></div>
+<div class="panel" id="status-panel" style="display:none"><h2>Your application</h2><div id="application-details" class="details"></div></div>
+<div class="panel"><h3>Privacy reminder</h3><p class="muted">We do not ask for BVN, bank account number, bank name, password, or OTP through this application.</p></div>
+</div></section></main>
+<footer><div class="container">© <span id="year"></span> Student Loan Found · Independent private initiative</div></footer>
+</body></html>
