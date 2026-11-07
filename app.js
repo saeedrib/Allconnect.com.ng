@@ -89,6 +89,26 @@ async function loadAdminDashboard() {
     }).join("") + "</tbody></table></div>";
   box.querySelectorAll(".admin-save").forEach(btn => btn.addEventListener("click", () => updateApplicationStatus(btn.dataset.id, btn)));
 }
+
+async function bulkUpdateApplications(status) {
+  const labels = { approved: "APPROVE ALL", under_review: "MOVE ALL TO UNDER REVIEW", rejected: "REJECT ALL", pending: "RESET ALL TO PENDING" };
+  const label = labels[status] || status;
+  if (!window.confirm(`Are you sure you want to ${label.toLowerCase()} applications? This changes the status of EVERY application.`)) return;
+  const buttons = document.querySelectorAll(".bulk-status-btn");
+  buttons.forEach(button => button.disabled = true);
+  clearMessage("admin-msg");
+  const { error } = await supabase.from("loan_applications")
+    .update({ status })
+    .neq("id", "00000000-0000-0000-0000-000000000000");
+  buttons.forEach(button => button.disabled = false);
+  if (error) {
+    showMessage("admin-msg", "Bulk status update failed: " + error.message);
+    return;
+  }
+  showMessage("admin-msg", `All applications have been updated to ${statusText(status)}.`, "success");
+  await loadAdminDashboard();
+}
+
 async function updateApplicationStatus(id, button) {
   const select = $("status-" + id);
   if (!select) return;
@@ -285,6 +305,9 @@ function init() {
   $("dash-logout").addEventListener("click", logout);
   $("admin-logout").addEventListener("click", logout);
   $("admin-refresh").addEventListener("click", loadAdminDashboard);
+  document.querySelectorAll(".bulk-status-btn").forEach(button => {
+    button.addEventListener("click", () => bulkUpdateApplications(button.dataset.status));
+  });
   $("menu-overview").addEventListener("click", () => setDashboardTab("overview"));
   $("menu-application").addEventListener("click", () => setDashboardTab("application"));
   $("menu-privacy").addEventListener("click", () => setDashboardTab("privacy"));
