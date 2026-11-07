@@ -334,6 +334,13 @@ function init() {
   $("menu-overview").addEventListener("click", () => setDashboardTab("overview"));
   $("menu-application").addEventListener("click", () => setDashboardTab("application"));
   $("menu-privacy").addEventListener("click", () => setDashboardTab("privacy"));
+  $("student-brand-home").addEventListener("click", e => { e.preventDefault(); setDashboardTab("overview"); });
+  $("tracking-copy").addEventListener("click", async () => {
+    const value = $("stat-tracking").textContent.trim();
+    if (!value || value === "—" || value === "Not available yet") return;
+    try { await navigator.clipboard.writeText(value); $("tracking-copy").textContent = "Copied"; setTimeout(() => $("tracking-copy").textContent = "Copy", 1500); }
+    catch { showMessage("dashboard-msg", "Could not copy automatically. Please select the tracking ID and copy it."); }
+  });
   $("login-form").addEventListener("submit", handleLogin);
   $("register-form").addEventListener("submit", handleRegister);
   $("application-form").addEventListener("submit", handleApplication);
