@@ -296,7 +296,7 @@ function init() {
     showMessage("login-msg", "Supabase could not load. Check your internet connection and refresh the page."); return;
   }
   supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-  supabase.auth.getSession().then(({ data, error }) => {
+  supabase.auth.getSession().then(async ({ data, error }) => {
     if (error) console.warn(error.message);
     currentUser = data.session?.user || null;
     setNavigation();
