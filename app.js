@@ -44,12 +44,60 @@ async function saveProfile(user, fullName) {
   if (error) console.warn("Profile save warning:", error.message);
 }
 
-function openDashboard() {
+async function routeSignedInUser() {
+  if (!currentUser) { showView("home"); return; }
+  const { data, error } = await supabase.from("user_roles").select("role").eq("user_id", currentUser.id).maybeSingle();
+  if (error) console.warn("Role lookup failed:", error.message);
+  const role = data?.role || "student";
+  if (role === "admin") {
+    $("admin-account-email").textContent = currentUser.email || "";
+    showView("admin");
+    await loadAdminDashboard();
+  } else {
+    openStudentDashboard();
+  }
+}
+function openDashboard() { routeSignedInUser(); }
+function openStudentDashboard() {
   if (!currentUser) { showView("login"); return; }
   $("account-email").textContent = currentUser.email || "";
   $("welcome-heading").textContent = `Welcome${currentUser.user_metadata?.full_name ? ", " + currentUser.user_metadata.full_name : ""}`;
   showView("dashboard");
   loadApplication();
+}
+async function loadAdminDashboard() {
+  const box = $("admin-applications");
+  box.innerHTML = '<div class="empty">Loading applications…</div>';
+  const { data, error } = await supabase.from("loan_applications").select("*").order("submitted_at", { ascending: false });
+  if (error) {
+    box.innerHTML = "";
+    showMessage("admin-msg", "Could not load applications: " + error.message);
+    return;
+  }
+  const rows = data || [];
+  $("admin-total").textContent = String(rows.length);
+  $("admin-pending").textContent = String(rows.filter(x => !x.status || x.status === "pending").length);
+  $("admin-reviewed").textContent = String(rows.filter(x => ["under_review","approved","rejected"].includes(x.status)).length);
+  if (!rows.length) { box.innerHTML = '<div class="empty">No applications have been submitted yet.</div>'; return; }
+  box.innerHTML = '<div class="table-wrap"><table class="admin-table"><thead><tr><th>Student</th><th>Institution / Course</th><th>Matric No.</th><th>State</th><th>Tracking ID</th><th>Status</th><th>Action</th></tr></thead><tbody>' +
+    rows.map(row => {
+      const p = row.personal_details || {};
+      const id = escapeHTML(row.id);
+      const status = String(row.status || "pending");
+      const options = ["pending","under_review","approved","rejected"].map(s => `<option value="${s}" ${status===s?"selected":""}>${escapeHTML(statusText(s))}</option>`).join("");
+      return `<tr><td><strong>${escapeHTML(p.full_name || "—")}</strong><small>${escapeHTML(row.user_id || "")}</small></td><td>${escapeHTML(row.institution_name || "—")}<small>${escapeHTML(row.course_of_study || "—")}</small></td><td>${escapeHTML(row.student_id || "—")}</td><td>${escapeHTML(p.state_of_origin || "—")}</td><td>${escapeHTML(row.tracking_id || "—")}</td><td><select class="admin-status" id="status-${id}">${options}</select></td><td><button class="btn btn-primary admin-save" data-id="${id}" type="button">Save</button></td></tr>`;
+    }).join("") + "</tbody></table></div>";
+  box.querySelectorAll(".admin-save").forEach(btn => btn.addEventListener("click", () => updateApplicationStatus(btn.dataset.id, btn)));
+}
+async function updateApplicationStatus(id, button) {
+  const select = $("status-" + id);
+  if (!select) return;
+  button.disabled = true; button.textContent = "Saving…";
+  const { error } = await supabase.from("loan_applications").update({ status: select.value }).eq("id", id);
+  button.disabled = false; button.textContent = "Save";
+  if (error) { showMessage("admin-msg", "Status update failed: " + error.message); return; }
+  showMessage("admin-msg", "Application status updated successfully.", "success");
+  await loadAdminDashboard();
 }
 function setDashboardTab(tab) {
   $("menu-overview").classList.toggle("active", tab === "overview");
@@ -140,7 +188,7 @@ async function handleRegister(event) {
     if (error) throw error;
     if (data.user) await saveProfile(data.user, fullName);
     if (data.session) {
-      currentUser = data.user; setNavigation(); openDashboard();
+      currentUser = data.user; setNavigation(); await routeSignedInUser();
     } else {
       showMessage("register-msg", "Your account has been created. Please check your email and confirm it, then log in. If you do not see the email, check Spam/Junk.", "success");
       $("register-form").reset();
@@ -158,7 +206,7 @@ async function handleLogin(event) {
       email: $("login-email").value.trim(), password: $("login-password").value
     });
     if (error) throw error;
-    currentUser = data.user; setNavigation(); await saveProfile(currentUser); openDashboard();
+    currentUser = data.user; setNavigation(); await saveProfile(currentUser); await routeSignedInUser();
   } catch (err) {
     showMessage("login-msg", err.message || "Login failed. Check your email and password.");
   } finally { button.disabled = false; button.textContent = "Log in securely"; }
@@ -235,6 +283,8 @@ function init() {
   $("brand-home").addEventListener("click", e => { e.preventDefault(); currentUser ? openDashboard() : showView("home"); });
   $("nav-logout").addEventListener("click", logout);
   $("dash-logout").addEventListener("click", logout);
+  $("admin-logout").addEventListener("click", logout);
+  $("admin-refresh").addEventListener("click", loadAdminDashboard);
   $("menu-overview").addEventListener("click", () => setDashboardTab("overview"));
   $("menu-application").addEventListener("click", () => setDashboardTab("application"));
   $("menu-privacy").addEventListener("click", () => setDashboardTab("privacy"));
@@ -250,7 +300,7 @@ function init() {
     if (error) console.warn(error.message);
     currentUser = data.session?.user || null;
     setNavigation();
-    if (currentUser) openDashboard(); else showView("home");
+    if (currentUser) await routeSignedInUser(); else showView("home");
   });
   supabase.auth.onAuthStateChange((_event, session) => {
     currentUser = session?.user || null;
