@@ -39,9 +39,10 @@ function applyStudentStatusTheme(status) {
   const allowed = ["pending","under_review","approved","rejected"];
   const theme = allowed.includes(key) ? key : "pending";
   const statusCard = $("stat-status")?.closest(".stat-card");
+  const summaryCard = $("stat-status")?.closest(".student-summary-card");
   const badge = $("status-badge");
   const detailsPanel = $("application-status-panel");
-  [statusCard, badge, detailsPanel].forEach(el => {
+  [statusCard, summaryCard, badge, detailsPanel].forEach(el => {
     if (!el) return;
     el.classList.remove("status-pending","status-under-review","status-approved","status-rejected");
     el.classList.add("status-" + theme.replaceAll("_","-"));
