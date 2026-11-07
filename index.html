@@ -72,6 +72,124 @@
 @media(max-width:820px){#dashboard-view .dash-layout{grid-template-columns:1fr}#dashboard-view .sidebar{background:linear-gradient(100deg,#102a43,#176b55)}}
 @media(max-width:600px){#dashboard-view .dash-heading{padding:16px}#dashboard-view .dash-heading h1{font-size:26px}#dashboard-view .welcome-banner{padding:22px;min-height:130px}#dashboard-view .welcome-banner h2{font-size:21px}#dashboard-view .stat-card{min-height:96px}#dashboard-view .panel{padding:18px}.bulk-toolbar{padding:14px}.bulk-toolbar-buttons{display:grid;grid-template-columns:1fr 1fr;width:100%}.bulk-status-btn{padding:12px 8px;font-size:11px}}
 
+
+/* Full student dashboard redesign: clean, spacious and mobile-first */
+#dashboard-view{
+  background:#eef2f7;
+  background-image:radial-gradient(ellipse at 10% 0%,rgba(28,112,93,.09),transparent 35%),radial-gradient(ellipse at 95% 18%,rgba(33,94,139,.08),transparent 32%);
+}
+#dashboard-view .dash-shell{width:min(1240px,94%);padding:34px 0 70px}
+#dashboard-view .dash-heading{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:22px 26px;margin-bottom:22px;border-radius:22px;
+  background:#fff;border:1px solid #e1e7ef;box-shadow:0 10px 30px rgba(15,35,60,.055)
+}
+#dashboard-view .dash-heading .eyebrow{color:#16805b}
+#dashboard-view .dash-heading h1{font-size:30px;font-weight:850;letter-spacing:-1px;margin:3px 0;color:#10263f}
+#dashboard-view .dash-heading .muted{margin:0;color:#758397}
+#dashboard-view #dash-logout{border-radius:11px;padding:11px 19px}
+#dashboard-view .dash-layout{grid-template-columns:248px minmax(0,1fr);gap:22px}
+#dashboard-view .sidebar{
+  position:sticky;top:94px;padding:17px 14px;border-radius:21px;
+  background:linear-gradient(160deg,#10263f 0%,#153d56 58%,#12624d 100%);
+  box-shadow:0 16px 35px rgba(16,38,63,.17);border:0
+}
+#dashboard-view .side-label{padding:6px 12px;color:#9eb8c9}
+#dashboard-view .side-item{display:flex;align-items:center;gap:9px;padding:14px 13px;margin:5px 0;border-radius:12px;color:#e4edf4;font-size:13px;font-weight:700}
+#dashboard-view .side-item.active{background:#fff;color:#102b43;box-shadow:0 5px 15px rgba(0,0,0,.12)}
+#dashboard-view .side-note{margin:20px 5px 0;padding:15px 8px 4px;color:#c2d7df;line-height:1.7}
+#dashboard-view .main-dash{min-width:0}
+#dashboard-view .welcome-banner{
+  position:relative;overflow:hidden;min-height:176px;padding:30px 32px;margin-bottom:20px;
+  border-radius:22px;background:linear-gradient(112deg,#10263f 0%,#174b63 60%,#147052 100%);
+  box-shadow:0 15px 32px rgba(16,38,63,.15)
+}
+#dashboard-view .welcome-banner:after{
+  content:"";position:absolute;width:230px;height:230px;border:1px solid #ffffff20;border-radius:50%;
+  right:55px;top:-100px;box-shadow:0 0 0 25px #ffffff08,0 0 0 50px #ffffff06
+}
+#dashboard-view .welcome-banner h2{font-size:27px;font-weight:800;letter-spacing:-.7px}
+#dashboard-view .welcome-banner p{font-size:14px;color:#d5e6e9}
+#dashboard-view .welcome-mark{z-index:1;width:64px;height:64px;border-radius:19px;background:#ffffff1a;display:grid;place-items:center;font-size:34px}
+#dashboard-view .stat-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-bottom:20px}
+#dashboard-view .stat-card{
+  position:relative;overflow:hidden;min-height:126px;padding:20px 19px;border-radius:18px;
+  border:1px solid #e1e7ef;background:#fff;box-shadow:0 8px 24px rgba(15,35,60,.05);
+  transition:transform .2s,box-shadow .2s
+}
+#dashboard-view .stat-card:hover{transform:translateY(-3px);box-shadow:0 13px 28px rgba(15,35,60,.09)}
+#dashboard-view .stat-card small{font-size:12px;font-weight:750;letter-spacing:.02em;color:#718096}
+#dashboard-view .stat-card strong{font-size:22px;font-weight:850;line-height:1.25;margin-top:13px;color:#10263f;overflow-wrap:anywhere}
+#dashboard-view .stat-icon{width:37px;height:37px;border-radius:12px;display:grid;place-items:center;background:#eaf3f2;color:#147052;font-size:18px}
+#dashboard-view .panel{
+  padding:25px;border-radius:20px;background:#fff;border:1px solid #e1e7ef;
+  box-shadow:0 9px 27px rgba(15,35,60,.045);margin-bottom:18px
+}
+#dashboard-view .panel-head{align-items:center;margin-bottom:17px}
+#dashboard-view .panel h2{font-size:20px;font-weight:850;letter-spacing:-.4px;color:#10263f}
+#dashboard-view .panel .muted{color:#7b8797}
+#dashboard-view .form-grid{gap:3px 18px}
+#dashboard-view .field{margin:12px 0}
+#dashboard-view .field label{font-size:12px;font-weight:800;color:#34465a;margin-bottom:7px}
+#dashboard-view .field input,#dashboard-view .field select{
+  min-height:48px;border-radius:12px;border:1px solid #dce4ec;background:#f9fbfd;padding:12px 14px;color:#1f3348
+}
+#dashboard-view .field input:focus,#dashboard-view .field select:focus{background:#fff;border-color:#16805b;box-shadow:0 0 0 4px rgba(22,128,91,.1)}
+#dashboard-view #submit-application{margin-top:10px;min-height:48px;padding:0 24px;border-radius:12px;background:#147052;box-shadow:0 6px 14px rgba(20,112,82,.17)}
+#dashboard-view .details-grid{gap:13px}
+#dashboard-view .detail{padding:16px;border-radius:13px;background:#f7f9fc;border:1px solid #e7edf3}
+#dashboard-view .detail small{font-size:11px;font-weight:750;color:#718096;text-transform:uppercase;letter-spacing:.04em}
+#dashboard-view .detail strong{font-size:14px;color:#1c3046;margin-top:6px}
+#dashboard-view .empty{border-radius:14px}
+#dashboard-view .status-pill{padding:8px 14px;border-radius:30px;font-size:11px;font-weight:900;letter-spacing:.04em;text-transform:uppercase}
+#dashboard-view .status-pending{background:#101820!important;border-color:#101820!important;color:#fff!important}
+#dashboard-view .status-under-review{background:#e7f0ff!important;border-color:#bcd3f4!important;color:#1f5798!important}
+#dashboard-view .status-approved{background:#e5f7ed!important;border-color:#b7e6ca!important;color:#12653b!important}
+#dashboard-view .status-rejected{background:#fff0f0!important;border-color:#f2c5c5!important;color:#a52b35!important}
+#dashboard-view .stat-card.status-pending{background:linear-gradient(135deg,#101820,#263442)!important;border-color:#101820!important}
+#dashboard-view .stat-card.status-pending small,#dashboard-view .stat-card.status-pending strong{color:#fff!important}
+#dashboard-view .stat-card.status-pending .stat-icon{background:#ffffff20;color:#fff}
+#dashboard-view .stat-card.status-under-review{background:linear-gradient(135deg,#eaf2ff,#d9e8ff)!important;border-color:#bdd3f3!important}
+#dashboard-view .stat-card.status-under-review small,#dashboard-view .stat-card.status-under-review strong{color:#1f5798!important}
+#dashboard-view .stat-card.status-under-review .stat-icon{background:#fff;color:#245e9e}
+#dashboard-view .stat-card.status-approved{background:linear-gradient(135deg,#eaf8ef,#d7f1e1)!important;border-color:#b8e3c8!important}
+#dashboard-view .stat-card.status-approved small,#dashboard-view .stat-card.status-approved strong{color:#12653b!important}
+#dashboard-view .stat-card.status-approved .stat-icon{background:#fff;color:#16834c}
+#dashboard-view .stat-card.status-rejected{background:linear-gradient(135deg,#fff0f0,#ffe0e0)!important;border-color:#f0c4c4!important}
+#dashboard-view .stat-card.status-rejected small,#dashboard-view .stat-card.status-rejected strong{color:#a52b35!important}
+#dashboard-view .stat-card.status-rejected .stat-icon{background:#fff;color:#b8323d}
+#dashboard-view #application-status-panel.status-pending{border:1px solid #273440}
+#dashboard-view #application-status-panel.status-under-review{border:1px solid #bcd3f4}
+#dashboard-view #application-status-panel.status-approved{border:1px solid #b7e6ca}
+#dashboard-view #application-status-panel.status-rejected{border:1px solid #f2c5c5}
+#dashboard-view #dashboard-msg{border-radius:12px}
+@media(max-width:900px){
+ #dashboard-view .dash-layout{grid-template-columns:1fr}
+ #dashboard-view .sidebar{position:static;display:flex;align-items:center;gap:6px;overflow-x:auto;padding:10px}
+ #dashboard-view .side-label,#dashboard-view .side-note{display:none}
+ #dashboard-view .side-item{white-space:nowrap;width:auto;margin:0}
+}
+@media(max-width:620px){
+ #dashboard-view .dash-shell{width:93%;padding:18px 0 42px}
+ #dashboard-view .dash-heading{padding:17px;border-radius:17px;gap:12px;flex-direction:row;align-items:center}
+ #dashboard-view .dash-heading h1{font-size:23px}
+ #dashboard-view .dash-heading .muted{font-size:11px;max-width:205px;overflow-wrap:anywhere}
+ #dashboard-view #dash-logout{padding:9px 12px;font-size:12px}
+ #dashboard-view .sidebar{border-radius:14px}
+ #dashboard-view .side-item{font-size:11px;padding:11px 10px}
+ #dashboard-view .welcome-banner{min-height:140px;padding:23px 20px;border-radius:18px}
+ #dashboard-view .welcome-banner h2{font-size:21px}
+ #dashboard-view .welcome-mark{width:48px;height:48px;font-size:26px}
+ #dashboard-view .stat-grid{grid-template-columns:1fr;gap:10px}
+ #dashboard-view .stat-card{min-height:88px;padding:15px 17px}
+ #dashboard-view .stat-card strong{font-size:19px;margin-top:7px}
+ #dashboard-view .stat-icon{width:32px;height:32px}
+ #dashboard-view .panel{padding:18px;border-radius:16px}
+ #dashboard-view .panel h2{font-size:18px}
+ #dashboard-view .form-grid,#dashboard-view .details-grid{grid-template-columns:1fr}
+ #dashboard-view #submit-application{width:100%}
+}
+
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script defer src="./app.js"></script>
