@@ -34,6 +34,23 @@ function escapeHTML(value) {
 }
 function statusText(value) { return String(value || "pending").replaceAll("_", " "); }
 
+function applyStudentStatusTheme(status) {
+  const key = String(status || "pending").toLowerCase().replaceAll(" ", "_");
+  const allowed = ["pending","under_review","approved","rejected"];
+  const theme = allowed.includes(key) ? key : "pending";
+  const statusCard = $("stat-status")?.closest(".stat-card");
+  const badge = $("status-badge");
+  const detailsPanel = $("application-status-panel");
+  [statusCard, badge, detailsPanel].forEach(el => {
+    if (!el) return;
+    el.classList.remove("status-pending","status-under-review","status-approved","status-rejected");
+    el.classList.add("status-" + theme.replaceAll("_","-"));
+  });
+  if (badge) badge.textContent = statusText(theme);
+  if ($("stat-status")) $("stat-status").textContent = statusText(theme);
+}
+
+
 async function saveProfile(user, fullName) {
   const name = (fullName || user?.user_metadata?.full_name || "").trim();
   if (!user || !name) return;
@@ -163,6 +180,9 @@ async function loadApplication() {
     $("application-form-panel").style.display = "block";
     $("stat-application").textContent = "Not submitted";
     $("stat-status").textContent = "—";
+    $("stat-status").closest(".stat-card").classList.remove("status-pending","status-under-review","status-approved","status-rejected");
+    $("status-badge").classList.remove("status-pending","status-under-review","status-approved","status-rejected");
+    $("application-status-panel").classList.remove("status-pending","status-under-review","status-approved","status-rejected");
     $("stat-tracking").textContent = "—";
     $("app-full-name").value = currentUser.user_metadata?.full_name || "";
     return;
@@ -174,9 +194,8 @@ async function loadApplication() {
   const personal = data.personal_details || {};
   const status = statusText(data.status);
   $("stat-application").textContent = "Submitted";
-  $("stat-status").textContent = status;
+  applyStudentStatusTheme(data.status || "pending");
   $("stat-tracking").textContent = data.tracking_id || "—";
-  $("status-badge").textContent = status;
   const rows = [
     ["Tracking ID", data.tracking_id],
     ["Application status", status],
