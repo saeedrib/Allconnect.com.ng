@@ -77,8 +77,8 @@ async function routeSignedInUser() {
 function openDashboard() { routeSignedInUser(); }
 function openStudentDashboard() {
   if (!currentUser) { showView("login"); return; }
-  $("account-email").textContent = currentUser.email || "";
-  $("welcome-heading").textContent = `Welcome${currentUser.user_metadata?.full_name ? ", " + currentUser.user_metadata.full_name : ""}`;
+  $("account-email").textContent = "";
+  $("welcome-heading").textContent = currentUser.user_metadata?.full_name || "Welcome";
   showView("dashboard");
   loadApplication();
 }
@@ -184,6 +184,7 @@ async function loadApplication() {
     $("status-badge").classList.remove("status-pending","status-under-review","status-approved","status-rejected");
     $("application-status-panel").classList.remove("status-pending","status-under-review","status-approved","status-rejected");
     $("stat-tracking").textContent = "—";
+    $("tracking-copy").dataset.copy = "";
     $("app-full-name").value = currentUser.user_metadata?.full_name || "";
     return;
   }
@@ -196,6 +197,7 @@ async function loadApplication() {
   $("stat-application").textContent = "Submitted";
   applyStudentStatusTheme(data.status || "pending");
   $("stat-tracking").textContent = data.tracking_id || "—";
+  $("tracking-copy").dataset.copy = data.tracking_id || "";
   const rows = [
     ["Tracking ID", data.tracking_id],
     ["Application status", status],
@@ -321,6 +323,7 @@ function init() {
   $("to-login").addEventListener("click", e => { e.preventDefault(); showView("login"); });
   $("brand-home").addEventListener("click", e => { e.preventDefault(); currentUser ? openDashboard() : showView("home"); });
   $("nav-logout").addEventListener("click", logout);
+  $("tracking-copy").addEventListener("click", async () => { const value = $("tracking-copy").dataset.copy || ""; if (!value) return; try { await navigator.clipboard.writeText(value); $("tracking-copy").textContent = "Copied"; setTimeout(() => $("tracking-copy").textContent = "Copy", 1400); } catch { showMessage("dashboard-msg", "Please select and copy your tracking ID manually."); } });
   $("dash-logout").addEventListener("click", logout);
   $("admin-logout").addEventListener("click", logout);
   $("admin-refresh").addEventListener("click", loadAdminDashboard);
