@@ -253,6 +253,54 @@ body{background:#f8fafc;color:#1f2937}
 @media(min-width:900px){#dashboard-view .dash-shell{padding-top:36px}#dashboard-view .sidebar{position:static;display:flex;justify-content:flex-start;gap:8px;padding:8px;margin-bottom:18px;border:1px solid #e5e7eb;border-radius:14px;box-shadow:none}#dashboard-view .side-item{flex:0 0 auto;padding:10px 16px}#dashboard-view .main-dash{max-width:900px}#dashboard-view .dash-heading{padding-bottom:22px}}
 @media(max-width:600px){#dashboard-view .dash-shell{width:92%;padding:20px 0 105px}#dashboard-view .dash-heading{padding:4px 0 17px}#dashboard-view .student-summary-card{padding:16px;border-radius:15px}#dashboard-view .panel{padding:17px;border-radius:15px}#dashboard-view .form-grid,#dashboard-view .details-grid{grid-template-columns:1fr}#dashboard-view #submit-application{width:100%}#dashboard-view .side-item{font-size:10px}}
 
+
+/* Mobile-first AllConnect student dashboard */
+#dashboard-view{background:#f8fafc!important;color:#1f2937;min-height:calc(100vh - 70px);padding-bottom:96px}
+#dashboard-view .dash-shell{width:min(900px,100%);padding:14px 16px 40px}
+#dashboard-view .student-topline{height:54px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #e5e7eb;margin-bottom:25px}
+#dashboard-view .student-brand{display:flex;align-items:center;gap:9px;color:#1f2937;text-decoration:none;font-size:15px;font-weight:850}
+#dashboard-view .student-brand small{display:block;color:#94a3b8;font-size:10px;font-weight:600;line-height:1.2}
+#dashboard-view .student-brand-mark{width:34px;height:34px;display:grid;place-items:center;border-radius:11px;background:#059669;color:white;font-size:12px}
+#dashboard-view .student-secure{font-size:10px;font-weight:750;color:#047857;background:#ecfdf5;border-radius:30px;padding:7px 10px}
+#dashboard-view .dash-layout{display:block}
+#dashboard-view .student-bottom-nav{position:fixed;z-index:100;left:0;right:0;bottom:0;display:grid;grid-template-columns:repeat(3,1fr);gap:4px;padding:8px 12px calc(8px + env(safe-area-inset-bottom));margin:0;background:rgba(255,255,255,.97);border:1px solid #e5e7eb;border-bottom:0;border-radius:17px 17px 0 0;box-shadow:0 -5px 24px rgba(15,23,42,.08);backdrop-filter:blur(12px)}
+#dashboard-view .student-bottom-nav .side-item{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;min-height:46px;padding:5px 3px;border:0;border-radius:11px;background:transparent;color:#64748b;font-size:10px;font-weight:750}
+#dashboard-view .student-bottom-nav .side-item span{font-size:19px;line-height:1.1}
+#dashboard-view .student-bottom-nav .side-item.active{background:#ecfdf5;color:#047857}
+#dashboard-view .student-welcome{padding:2px 1px 18px}
+#dashboard-view .student-welcome .eyebrow{font-size:10px;letter-spacing:.12em;font-weight:850;color:#059669}
+#dashboard-view .student-welcome h1{margin:5px 0 3px;color:#111827;font-size:clamp(24px,6vw,32px);font-weight:850;letter-spacing:-.8px;line-height:1.2}
+#dashboard-view .student-welcome p{margin:0;color:#64748b;font-size:14px}
+#dashboard-view .student-summary-card{padding:18px;background:#fff;border:1px solid #e5e7eb;border-radius:17px;box-shadow:0 2px 9px rgba(15,23,42,.045);margin-bottom:17px}
+#dashboard-view .summary-top{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-bottom:14px;border-bottom:1px solid #f1f5f9}
+#dashboard-view .summary-top>div{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+#dashboard-view .summary-label{display:block;font-size:10px;font-weight:850;letter-spacing:.08em;color:#64748b;margin-bottom:6px}
+#dashboard-view .status-pill{display:inline-flex;border-radius:30px;padding:7px 12px;font-size:10px;font-weight:850;letter-spacing:.04em;text-transform:uppercase}
+#dashboard-view .status-pending{background:#111827!important;color:#fff!important}
+#dashboard-view .status-under-review{background:#fff7ed!important;color:#9a3412!important;border:1px solid #fed7aa}
+#dashboard-view .status-approved{background:#ecfdf5!important;color:#047857!important;border:1px solid #a7f3d0}
+#dashboard-view .status-rejected{background:#fef2f2!important;color:#b91c1c!important;border:1px solid #fecaca}
+#dashboard-view .submitted-chip{font-size:11px;font-weight:750;color:#475569;background:#f1f5f9;border-radius:9px;padding:7px 9px}
+#dashboard-view .tracking-row{display:flex;align-items:center;justify-content:space-between;gap:10px;padding-top:14px}
+#dashboard-view .tracking-row strong{display:block;color:#1f2937;font-size:13px;overflow-wrap:anywhere}
+#dashboard-view .copy-tracking{border:0;border-radius:8px;padding:8px 12px;background:#ecfdf5;color:#047857;font-size:11px;font-weight:850}
+#dashboard-view .visually-hidden{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+#dashboard-view .panel{padding:19px;background:#fff;border:1px solid #e5e7eb;border-radius:16px;box-shadow:0 2px 8px rgba(15,23,42,.035);margin-bottom:14px}
+#dashboard-view .panel h2{font-size:18px;color:#111827;font-weight:800}
+#dashboard-view .panel .muted{color:#64748b}
+#dashboard-view .field label{color:#374151;font-size:12px;font-weight:750}
+#dashboard-view .field input,#dashboard-view .field select{min-height:48px;border:1px solid #d1d5db;border-radius:11px;background:#fff;color:#1f2937;padding:12px}
+#dashboard-view .field input:focus,#dashboard-view .field select:focus{outline:3px solid #d1fae5;border-color:#10b981}
+#dashboard-view #submit-application{width:100%;min-height:48px;border:0;border-radius:11px;background:#059669;color:#fff;font-weight:800}
+#dashboard-view .details-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+#dashboard-view .detail{min-width:0;padding:13px;border:1px solid #eef0f3;border-radius:12px;background:#fafafa}
+#dashboard-view .detail small{display:block;color:#64748b;font-size:10px;font-weight:750}
+#dashboard-view .detail strong{display:block;margin-top:5px;color:#1f2937;font-size:13px;overflow-wrap:anywhere}
+#dashboard-view .dash-heading,#dashboard-view .sidebar:not(.student-bottom-nav),#dashboard-view .welcome-banner{display:none!important}
+#dashboard-view .msg{margin:0 0 14px}
+@media(min-width:760px){#dashboard-view .dash-shell{padding-top:28px}#dashboard-view .student-bottom-nav{position:static;display:flex;width:max-content;gap:5px;padding:6px;margin:0 0 22px;border:1px solid #e5e7eb;border-radius:13px;box-shadow:none}#dashboard-view .student-bottom-nav .side-item{flex-direction:row;gap:8px;padding:10px 15px;font-size:12px}#dashboard-view .student-bottom-nav .side-item span{font-size:16px}}
+@media(max-width:420px){#dashboard-view .dash-shell{padding-left:14px;padding-right:14px}#dashboard-view .student-summary-card{padding:15px}#dashboard-view .details-grid{grid-template-columns:1fr}}
+
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script defer src="./app.js"></script>
@@ -299,12 +347,12 @@ body{background:#f8fafc;color:#1f2937}
 </div></div></section>
 
 <section class="view" id="dashboard-view"><div class="container dash-shell">
-  <div class="dash-heading"><div><span class="eyebrow">STUDENT PORTAL</span><h1>Welcome, <span id="welcome-heading">Student</span></h1><p class="muted">Here is your application status and latest information.</p><span id="account-email" hidden></span></div><button class="btn btn-outline" id="dash-logout" type="button">Log out</button></div>
+  <div class="student-topline"><a class="student-brand" href="#" id="student-brand-home"><span class="student-brand-mark">AC</span><span>AllConnect<small>Student portal</small></span></a><span class="student-secure">● Secure portal</span><span id="account-email" hidden></span></div>
   <div class="dash-layout">
-    <aside class="sidebar"><div class="side-label">Menu</div><button class="side-item active" id="menu-overview">▦ &nbsp; Overview</button><button class="side-item" id="menu-application">▤ &nbsp; My application</button><button class="side-item" id="menu-privacy">♧ &nbsp; Privacy & safety</button><div class="side-note">Student Loan Found<br>Private student support portal</div></aside>
+    <nav class="student-bottom-nav" aria-label="Student navigation"><button class="side-item active" id="menu-overview" type="button"><span>⌂</span>Overview</button><button class="side-item" id="menu-application" type="button"><span>▤</span>My application</button><button class="side-item" id="menu-privacy" type="button"><span>♧</span>Privacy</button></nav>
     <div class="main-dash">
-      <div class="welcome-banner"><div><h2 id="welcome-heading">Welcome to your portal</h2><p>Manage your student support application in one place.</p></div><div class="welcome-mark">✦</div></div>
-      <div class="student-summary-card"><div class="summary-top"><div><span class="summary-label">APPLICATION STATUS</span><div class="summary-status"><span class="status-dot"></span><strong id="stat-status">Not submitted</strong></div></div><div class="submitted-chip" id="stat-application">Not submitted</div></div><div class="tracking-row"><div><span class="summary-label">TRACKING ID</span><strong id="stat-tracking">Not available yet</strong></div><button class="copy-tracking" id="tracking-copy" type="button" data-copy="">Copy</button></div></div>
+      <section class="student-welcome"><span class="eyebrow">STUDENT DASHBOARD</span><h1>Welcome, <span id="welcome-heading">Student</span></h1><p>Here is your application status.</p></section>
+      <section class="student-summary-card"><div class="summary-top"><div><span class="summary-label">APPLICATION STATUS</span><span class="status-pill" id="status-badge">Pending</span><strong id="stat-status" class="visually-hidden">pending</strong></div><span class="submitted-chip" id="stat-application">Not submitted</span></div><div class="tracking-row"><div><span class="summary-label">TRACKING ID</span><strong id="stat-tracking">Not available yet</strong></div><button class="copy-tracking" id="tracking-copy" type="button">Copy</button></div></section>
       <div class="msg" id="dashboard-msg" role="status"></div>
       <div class="panel" id="application-form-panel"><div class="panel-head"><div><h2>Student support application</h2><p class="muted">Complete all five fields to submit your application.</p></div></div>
         <form id="application-form"><div class="form-grid">
@@ -315,7 +363,7 @@ body{background:#f8fafc;color:#1f2937}
           <div class="field"><label for="app-state">State of Origin</label><select id="app-state" required><option value="">Select state</option></select></div>
         </div><button class="btn btn-primary" id="submit-application" type="submit">Submit application</button></form>
       </div>
-      <div class="panel" id="application-status-panel" style="display:none"><div class="panel-head"><h2>Application details</h2><span class="status-pill" id="status-badge">Pending</span></div><div class="details-grid" id="application-details"></div></div>
+      <div class="panel" id="application-status-panel" style="display:none"><div class="panel-head"><div><h2>Application details</h2><p class="muted">Your submitted student information.</p></div></div><div class="details-grid" id="application-details"></div></div>
       <div class="panel" id="privacy-panel" style="display:none"><h2>Privacy & safety</h2><p class="muted">This application does not request BVN, bank account number, or bank name. Never share your password, one-time password (OTP), or banking PIN with anyone claiming to process your application.</p></div>
     </div>
   </div>
