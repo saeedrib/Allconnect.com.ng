@@ -79,6 +79,7 @@ function openStudentDashboard() {
   if (!currentUser) { showView("login"); return; }
   if ($("account-email")) $("account-email").textContent = "";
   $("welcome-heading").textContent = currentUser.user_metadata?.full_name || "Welcome";
+  activeDashboardTab = "application";
   showView("dashboard");
   loadApplication();
 }
@@ -168,6 +169,7 @@ async function loadApplication() {
     return;
   }
   if (!data) {
+    activeDashboardTab = "application";
     $("application-status-panel").dataset.hasApp = "no";
     $("application-status-panel").style.display = "none";
     $("application-form-panel").style.display = "block";
@@ -183,6 +185,7 @@ async function loadApplication() {
     return;
   }
 
+  activeDashboardTab = "overview";
   $("application-status-panel").dataset.hasApp = "yes";
   $("application-form-panel").style.display = "none";
   $("application-status-panel").style.display = "none";
@@ -269,6 +272,11 @@ async function handleApplication(event) {
   event.preventDefault();
   if (!currentUser || submitting) return;
   clearMessage("dashboard-msg");
+  const deadline = new Date("2026-12-16T00:00:00+01:00");
+  if (new Date() >= deadline) {
+    showMessage("dashboard-msg", "The application deadline (15 December 2026) has passed. New applications are closed.");
+    return;
+  }
   const fullName = $("app-full-name").value.trim();
   const institution = $("app-institution").value.trim();
   const studentId = $("app-student-id").value.trim();
