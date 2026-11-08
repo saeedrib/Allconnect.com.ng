@@ -10,6 +10,7 @@ const STATES = ["Abia","Adamawa","Akwa Ibom","Anambra","Bauchi","Bayelsa","Benue
 let supabase = null;
 let currentUser = null;
 let submitting = false;
+let activeDashboardTab = "overview";
 
 function showView(name) {
   document.querySelectorAll(".view").forEach(v => { v.style.display = "none"; });
@@ -138,27 +139,20 @@ async function updateApplicationStatus(id, button) {
   await loadAdminDashboard();
 }
 function setDashboardTab(tab) {
-  $("menu-overview").classList.toggle("active", tab === "overview");
-  $("menu-application").classList.toggle("active", tab === "application");
-  $("menu-privacy").classList.toggle("active", tab === "privacy");
-  if (tab === "privacy") {
-    $("privacy-panel").style.display = "block";
-    $("application-form-panel").style.display = "none";
-    if ($("application-status-panel").dataset.hasApp === "yes") $("application-status-panel").style.display = "block";
-    else $("application-status-panel").style.display = "none";
-  } else {
-    $("privacy-panel").style.display = "none";
-    if (tab === "application" && $("application-status-panel").dataset.hasApp === "yes") {
-      $("application-status-panel").style.display = "block";
-      $("application-form-panel").style.display = "none";
-    } else if ($("application-status-panel").dataset.hasApp === "yes") {
-      $("application-status-panel").style.display = "block";
-      $("application-form-panel").style.display = "none";
-    } else {
-      $("application-status-panel").style.display = "none";
-      $("application-form-panel").style.display = "block";
-    }
-  }
+  activeDashboardTab = tab;
+  const tabs = { overview: "menu-overview", application: "menu-application", settings: "menu-settings" };
+  Object.entries(tabs).forEach(([key, id]) => { const button = $(id); if (button) button.classList.toggle("active", key === tab); });
+  const welcome = document.querySelector("#dashboard-view .student-welcome");
+  const summary = document.querySelector("#dashboard-view .student-summary-card");
+  const message = $("dashboard-msg"), form = $("application-form-panel");
+  const details = $("application-status-panel"), settings = $("settings-panel");
+  const hasApp = details?.dataset.hasApp === "yes";
+  if (welcome) welcome.style.display = tab === "settings" ? "none" : "block";
+  if (summary) summary.style.display = tab === "overview" ? "block" : "none";
+  if (message) message.style.display = tab === "settings" ? "none" : "block";
+  if (form) form.style.display = tab === "application" && !hasApp ? "block" : "none";
+  if (details) details.style.display = tab === "application" && hasApp ? "block" : "none";
+  if (settings) settings.style.display = tab === "settings" ? "block" : "none";
 }
 
 async function loadApplication() {
@@ -187,12 +181,13 @@ async function loadApplication() {
     $("stat-tracking").textContent = "—";
     $("tracking-copy").dataset.copy = "";
     $("app-full-name").value = currentUser.user_metadata?.full_name || "";
+    setDashboardTab(activeDashboardTab);
     return;
   }
 
   $("application-status-panel").dataset.hasApp = "yes";
   $("application-form-panel").style.display = "none";
-  $("application-status-panel").style.display = "block";
+  $("application-status-panel").style.display = "none";
   const personal = data.personal_details || {};
   const status = statusText(data.status);
   $("stat-application").textContent = "Submitted";
@@ -212,6 +207,7 @@ async function loadApplication() {
   $("application-details").innerHTML = rows.map(([label, value]) =>
     `<div class="detail"><small>${escapeHTML(label)}</small><strong>${escapeHTML(value || "—")}</strong></div>`
   ).join("");
+  setDashboardTab(activeDashboardTab);
 }
 
 async function handleRegister(event) {
@@ -252,6 +248,23 @@ async function handleLogin(event) {
   } catch (err) {
     showMessage("login-msg", err.message || "Login failed. Check your email and password.");
   } finally { button.disabled = false; button.textContent = "Log in securely"; }
+}
+
+async function handlePasswordChange(event) {
+  event.preventDefault(); clearMessage("password-msg");
+  const currentPassword = $("current-password").value, newPassword = $("new-password").value, confirmPassword = $("confirm-password").value;
+  if (newPassword.length < 8) return showMessage("password-msg", "New password must contain at least 8 characters.");
+  if (newPassword !== confirmPassword) return showMessage("password-msg", "The new passwords do not match.");
+  if (!currentUser?.email) return showMessage("password-msg", "Please log in again before changing your password.");
+  const button = $("change-password-btn"); button.disabled = true; button.textContent = "Updating…";
+  try {
+    const { error: verifyError } = await supabase.auth.signInWithPassword({ email: currentUser.email, password: currentPassword });
+    if (verifyError) throw new Error("Your current password is incorrect.");
+    const { error } = await supabase.auth.updateUser({ password: newPassword });
+    if (error) throw error;
+    $("password-form").reset(); showMessage("password-msg", "Your password has been changed successfully.", "success");
+  } catch (err) { showMessage("password-msg", err.message || "Could not update password. Please try again."); }
+  finally { button.disabled = false; button.textContent = "Update password"; }
 }
 
 async function handleApplication(event) {
@@ -332,7 +345,7 @@ function init() {
   });
   $("menu-overview").addEventListener("click", () => setDashboardTab("overview"));
   $("menu-application").addEventListener("click", () => setDashboardTab("application"));
-  $("menu-privacy").addEventListener("click", () => setDashboardTab("privacy"));
+  $("menu-settings").addEventListener("click", () => setDashboardTab("settings"));
   if ($("student-brand-home")) $("student-brand-home").addEventListener("click", e => { e.preventDefault(); setDashboardTab("overview"); });
   $("tracking-copy").addEventListener("click", async () => {
     const value = $("stat-tracking").textContent.trim();
@@ -343,6 +356,7 @@ function init() {
   $("login-form").addEventListener("submit", handleLogin);
   $("register-form").addEventListener("submit", handleRegister);
   $("application-form").addEventListener("submit", handleApplication);
+  $("password-form").addEventListener("submit", handlePasswordChange);
 
   if (!window.supabase?.createClient) {
     showMessage("login-msg", "Supabase could not load. Check your internet connection and refresh the page."); return;
